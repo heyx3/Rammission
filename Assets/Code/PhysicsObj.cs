@@ -147,13 +147,9 @@ public class PhysicsObj : MonoBehaviour
 				otherPos = otherTr.position.Horz();
 		Vector2 toOther = (otherPos - thisPos).normalized;
 
-		float thisDot = Vector2.Dot(tr.forward.Horz().normalized, toOther),
-			  otherDot = Vector2.Dot(otherTr.forward.Horz().normalized, -toOther);
-
-		//Scale the values by velocity, so that faster players have an advantage.
-		thisDot *= rgd.velocity.Horz().magnitude;
-		otherDot *= otherObj.rgd.velocity.Horz().magnitude;
-
+		float thisDot = Vector2.Dot(rgd.velocity.Horz(), toOther),
+			  otherDot = Vector2.Dot(otherObj.rgd.velocity.Horz(), -toOther);
+		
 		//If there is a tie, randomly decide the winner.
 		thisDot += UnityEngine.Random.Range(-0.0001f, 0.0001f);
 

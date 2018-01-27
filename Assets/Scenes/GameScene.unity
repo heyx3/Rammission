@@ -375,6 +375,8 @@ GameObject:
   - component: {fileID: 1274944701}
   - component: {fileID: 1274944700}
   - component: {fileID: 1274944704}
+  - component: {fileID: 1274944705}
+  - component: {fileID: 1274944706}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -458,6 +460,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnSpeed: 1
   LookVerticalOffset: -21
+--- !u!114 &1274944705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1274944699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 897378435a487124d98c36c09d45b949, type: 2}
+--- !u!114 &1274944706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1274944699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a43fe35d99c3743bd9470e2ea32d9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1422770473
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prefab: {fileID: 1496131845716156, guid: e25f5f95a73f45e458a500ec953754b1, type: 2}
-  Bounds: 50
+  Radius: 25
   StartY: 1
 --- !u!4 &1422770475
 Transform:
