@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: FloorMat
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: RiverMat
+  m_Shader: {fileID: 4800000, guid: 20bfd006296e11f4ea91aaad0b427494, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -38,6 +38,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FoamTex:
+        m_Texture: {fileID: 2800000, guid: b855735fcb79ace43a633db4a544887b, type: 3}
+        m_Scale: {x: 42.94, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -45,6 +49,14 @@ Material:
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal1:
+        m_Texture: {fileID: 2800000, guid: a02f118b92e9f8f4bb7d812c1fa89680, type: 3}
+        m_Scale: {x: 75, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal2:
+        m_Texture: {fileID: 2800000, guid: a02f118b92e9f8f4bb7d812c1fa89680, type: 3}
+        m_Scale: {x: 75, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -59,10 +71,11 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _FoamPan: 10
     - _GlossMapScale: 1
-    - _Glossiness: 0.06
+    - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Metallic: 0
+    - _Metallic: 0.037
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -72,5 +85,8 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.22556229, g: 0.21761462, b: 0.25735295, a: 1}
+    - _Color: {r: 0.07006921, g: 0.20628804, b: 0.5294118, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FoamCol: {r: 0.41176468, g: 0.68357, b: 1, a: 1}
+    - _Normal1Pan: {r: 30, g: 1, b: 0, a: 0}
+    - _Normal2Pan: {r: 25, g: -1, b: 0, a: 0}
