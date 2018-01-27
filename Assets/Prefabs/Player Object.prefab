@@ -112,12 +112,12 @@ MeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1850013704199812}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 2100000, guid: c569b8a7c791e374ebeecd84bba7f929, type: 2}
   m_StaticBatchInfo:
@@ -153,7 +153,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 30dc672f399c9884a848acd67582e6b6, type: 2}
+  - {fileID: 2100000, guid: b6e277df526c40448bcbcbc55aeb233a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -228,7 +228,7 @@ MonoBehaviour:
   PlayerID: 0
   Acceleration: 15
   TurnSpeed: 500
-  AngryEyesThreshold: 0
+  AngryEyesThreshold: 0.001
   KillHeight: -10
   NormalEyes: {fileID: 2100000, guid: c569b8a7c791e374ebeecd84bba7f929, type: 2}
   AngryEyes: {fileID: 2100000, guid: f832e5a4837b6c340a1628d62767d7ec, type: 2}

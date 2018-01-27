@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-	public int NToSpawn = 30,
-			   NPlayers = 2,
-			   NPerPlayer = 5;
 	public GameObject Prefab;
 	public float Bounds = 50.0f;
 	public float StartY = 1.0f;
@@ -16,8 +13,8 @@ public class Spawner : MonoBehaviour
 
 	private void Awake()
 	{
-		var objs = new List<GameObject>(NToSpawn);
-		for (int i = 0; i < NToSpawn; ++i)
+		var objs = new List<GameObject>(GameSettings.NObjectsInField);
+		for (int i = 0; i < GameSettings.NObjectsInField; ++i)
 		{
 			var obj = Instantiate(Prefab);
 			objs.Add(obj);
@@ -26,9 +23,9 @@ public class Spawner : MonoBehaviour
 												 UnityEngine.Random.Range(-Bounds * 0.5f, Bounds * 0.5f));
 		}
 
-		for (int playerI = 0; playerI < NPlayers; ++playerI)
+		for (int playerI = 0; playerI < GameSettings.NPlayers; ++playerI)
 		{
-			for (int objI = 0; objI < NPerPlayer; ++objI)
+			for (int objI = 0; objI < GameSettings.NObjectsPerPlayer; ++objI)
 			{
 				int i = UnityEngine.Random.Range(0, objs.Count);
 				objs[i].GetComponent<PhysicsObj>().PlayerID = playerI;

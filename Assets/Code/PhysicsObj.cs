@@ -41,7 +41,7 @@ public class PhysicsObj : MonoBehaviour
 	private Rigidbody rgd;
 	private Renderer rnd;
 	private HashSet<PhysicsObj> currentCollidingObjs = new HashSet<PhysicsObj>();
-	private float timeWithCollisions = 0.0f;
+	private float timeWithCollisions = 0.0001f;
 
 
 	private void Awake()
