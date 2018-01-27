@@ -16,23 +16,21 @@ public class Spawner : MonoBehaviour
 
 	private void Awake()
 	{
-		var rng = new System.Random();
-
 		var objs = new List<GameObject>(NToSpawn);
 		for (int i = 0; i < NToSpawn; ++i)
 		{
 			var obj = Instantiate(Prefab);
 			objs.Add(obj);
-			obj.transform.position = new Vector3(Mathf.Lerp(-Bounds * 0.5f, Bounds * 0.5f, (float)rng.NextDouble()),
+			obj.transform.position = new Vector3(UnityEngine.Random.Range(-Bounds * 0.5f, Bounds * 0.5f),
 												 StartY,
-												 Mathf.Lerp(-Bounds * 0.5f, Bounds * 0.5f, (float)rng.NextDouble()));
+												 UnityEngine.Random.Range(-Bounds * 0.5f, Bounds * 0.5f));
 		}
 
 		for (int playerI = 0; playerI < NPlayers; ++playerI)
 		{
 			for (int objI = 0; objI < NPerPlayer; ++objI)
 			{
-				int i = rng.Next(objs.Count);
+				int i = UnityEngine.Random.Range(0, objs.Count);
 				objs[i].GetComponent<PhysicsObj>().PlayerID = playerI;
 				objs.RemoveAt(i);
 			}

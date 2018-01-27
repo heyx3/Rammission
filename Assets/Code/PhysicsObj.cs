@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(Renderer))]
-[RequireComponent(typeof(Rigidbody))]
 public class PhysicsObj : MonoBehaviour
 {
 	public int PlayerID = -1;
@@ -37,38 +35,89 @@ public class PhysicsObj : MonoBehaviour
 	private Rigidbody rgd;
 	private Renderer rnd;
 
+
 	private void Awake()
 	{
-		rgd = GetComponent<Rigidbody>();
-		rnd = GetComponent<Renderer>();
+		rgd = GetComponentInChildren<Rigidbody>();
+		rnd = GetComponentInChildren<Renderer>();
+
+		var collisionEvents = GetComponentInChildren<CollisionEventExposer>();
+		collisionEvents.CollisionEnter += (obj, coll) => OnCollisionEnter(coll);
 	}
 	private void FixedUpdate()
 	{
-		rnd.material = PlayerMaterials[PlayerID + 1];
+		if (rnd != null)
+			rnd.material = PlayerMaterials[PlayerID + 1];
 
-		if (PlayerID < 0)
+		if (rgd == null || PlayerID < 0)
 			return;
 
-
+		//Accelerate forwards/backwards.
 		float direction = 0.0f;
 		if (Input.GetKey(Control_Forward[PlayerID]))
 			direction += 1.0f;
 		if (Input.GetKey(Control_Backward[PlayerID]))
 			direction -= 1.0f;
-
-		//rgd.AddForce(transform.forward * direction * Acceleration * Time.deltaTime,
-		//			 ForceMode.Impulse);
 		rgd.velocity += transform.forward * direction * Acceleration * Time.deltaTime;
-		
+
+		//Turn.
 		float turnDir = 0.0f;
 		if (Input.GetKey(Control_TurnLeft[PlayerID]))
 			turnDir -= 1.0f;
 		if (Input.GetKey(Control_TurnRight[PlayerID]))
 			turnDir += 1.0f;
-
 		transform.Rotate(new Vector3(0.0f, turnDir * TurnSpeed * Time.deltaTime, 0.0f),
 						 Space.World);
-		var rot = transform.eulerAngles;
-		transform.eulerAngles = new Vector3(0.0f, rot.y, 0.0f);
+	}
+	private void LateUpdate()
+	{
+		if (rgd != null)
+		{
+			transform.position = rgd.position;
+			rgd.transform.localPosition = Vector3.zero;
+		}
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.transform.parent == null)
+			return;
+
+		var otherObj = collision.transform.parent.gameObject.GetComponent<PhysicsObj>();
+		if (otherObj == null)
+			return;
+
+		//To eliminate duplicate computations,
+		//    have the object with the lowest ID run this code.
+		//Note that objects with the same ID will never run this code,
+		//    because we don't care about them colliding.
+		if (PlayerID >= otherObj.PlayerID)
+			return;
+
+		Transform tr = transform,
+				  otherTr = otherObj.transform;
+
+		Vector2 thisPos = tr.position.Horz(),
+				otherPos = otherTr.position.Horz();
+		Vector2 toOther = (otherPos - thisPos).normalized;
+
+		float thisDot = Vector2.Dot(tr.forward.Horz().normalized, toOther),
+			  otherDot = Vector2.Dot(otherTr.forward.Horz().normalized, -toOther);
+
+		//Scale the values by velocity, so that faster players have an advantage.
+		thisDot *= rgd.velocity.Horz().magnitude;
+		otherDot *= otherObj.rgd.velocity.Horz().magnitude;
+
+		//If there is a tie, randomly decide the winner.
+		thisDot += UnityEngine.Random.Range(-0.0001f, 0.0001f);
+		if (thisDot < otherDot)
+			Captured(otherObj);
+		else
+			otherObj.Captured(this);
+	}
+	private void Captured(PhysicsObj capturer)
+	{
+		if (capturer.PlayerID >= 0)
+			PlayerID = capturer.PlayerID;
 	}
 }
