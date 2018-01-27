@@ -13,6 +13,11 @@ public class CollisionEventExposer : MonoBehaviour
 	public event Action<GameObject, Collision> CollisionEnter,
 											   CollisionStay,
 											   CollisionExit;
+	
+	public event Action<GameObject, Collider> TriggerEnter,
+											  TriggerStay,
+											  TriggerExit;
+
 
 	private void OnCollisionEnter(Collision collision)
 	{
@@ -28,5 +33,21 @@ public class CollisionEventExposer : MonoBehaviour
 	{
 		if (CollisionExit != null)
 			CollisionExit(gameObject, collision);
+	}
+
+	private void OnTriggerEnter(Collider collision)
+	{
+		if (TriggerEnter != null)
+			TriggerEnter(gameObject, collision);
+	}
+	private void OnTriggerStay(Collider collision)
+	{
+		if (TriggerStay != null)
+			TriggerStay(gameObject, collision);
+	}
+	private void OnTriggerExit(Collider collision)
+	{
+		if (TriggerExit != null)
+			TriggerExit(gameObject, collision);
 	}
 }

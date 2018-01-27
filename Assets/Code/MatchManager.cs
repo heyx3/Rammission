@@ -11,6 +11,13 @@ public class MatchManager : MonoBehaviour
 	public float Radius = 25.0f;
 	public float StartY = 1.0f;
 
+	[SerializeField]
+	private List<Transform> ringsToDrop = new List<Transform>();
+	[SerializeField]
+	private List<float> ringDropTimes = new List<float>();
+	[SerializeField]
+	private AnimationCurve ringDropCurve = AnimationCurve.EaseInOut(0.0f, 0.0f, 1.0f, 1.0f);
+
 	private int[] nPiecesPerPlayer;
 	private List<PhysicsObj> objs;
 
@@ -48,6 +55,12 @@ public class MatchManager : MonoBehaviour
 
 		foreach (var obj in objs)
 			obj.PlayerID = -1;
+
+		for (int i = 0; i < ringsToDrop.Count; ++i)
+			if (GameSettings.RingOut)
+				Destroy(ringsToDrop[i].gameObject);
+			else
+				StartCoroutine(DropRingCoroutine(ringsToDrop[i], ringDropTimes[i]));
 	}
 
 	/// <summary>
@@ -73,5 +86,31 @@ public class MatchManager : MonoBehaviour
 		int nPlayersWithPieces = nPiecesPerPlayer.Count(n => n > 0);
 		if (nPlayersWithPieces <= 1)
 			EndGame(nPiecesPerPlayer.IndexOf(n => n > 0));
+	}
+
+	private System.Collections.IEnumerator DropRingCoroutine(Transform tr, float ringDropTime)
+	{
+		tr.gameObject.SetActive(true);
+
+		float startY = tr.position.y,
+			  endY = 0.0f;
+		Vector2 horzPos = tr.position.Horz();
+
+		float t = 0.0f;
+		while (t < 1.0f)
+		{
+			tr.position = new Vector3(horzPos.x,
+									  Mathf.Lerp(startY, endY, ringDropCurve.Evaluate(t)),
+									  horzPos.y);
+			t += Time.deltaTime / ringDropTime;
+			yield return null;
+		}
+		tr.position = new Vector3(horzPos.x, 0.0f, horzPos.y);
+
+		ringsToDrop.Remove(tr);
+		if (ringsToDrop.Count == 0)
+		{
+			Debug.LogError("Start game now!");
+		}
 	}
 }

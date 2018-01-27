@@ -230,14 +230,12 @@ MonoBehaviour:
   TurnSpeed: 500
   AngryEyesThreshold: 0.001
   KillHeight: -10
+  PushAwayStrength: 10
   NormalEyes: {fileID: 2100000, guid: c569b8a7c791e374ebeecd84bba7f929, type: 2}
   AngryEyes: {fileID: 2100000, guid: f832e5a4837b6c340a1628d62767d7ec, type: 2}
   ScaredEyes: {fileID: 2100000, guid: a9a54c120e6b5934890f21222f3b339e, type: 2}
   EyesRenderer: {fileID: 23660141422353846}
-  Control_Forward: 7700000011010000
-  Control_Backward: 7300000012010000
-  Control_TurnLeft: 6100000014010000
-  Control_TurnRight: 6400000013010000
+  HitEffects: {fileID: 1762625626615354, guid: 49acd84b83a324e4b8f5ebe58258e004, type: 2}
   PlayerMaterials:
   - {fileID: 2100000, guid: ba8375f1a0dde424fb5a9981cea71e5d, type: 2}
   - {fileID: 2100000, guid: b6e277df526c40448bcbcbc55aeb233a, type: 2}
