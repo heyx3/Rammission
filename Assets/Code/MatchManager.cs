@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class MatchManager : MonoBehaviour
@@ -13,8 +14,14 @@ public class MatchManager : MonoBehaviour
 	private int[] nPiecesPerPlayer;
 	private List<PhysicsObj> objs;
 
+	private void Awake(){
+		// hold off on starting the match we need to find out what game type.
+		SceneManager.LoadScene("Scenes/MenuScene", LoadSceneMode.Additive);		
 
-	private void Awake()
+		this.MatchStart();
+	}
+
+	private void MatchStart()
 	{
 		objs = new List<PhysicsObj>(GameSettings.NObjectsInField);
 		for (int i = 0; i < GameSettings.NObjectsInField; ++i)
