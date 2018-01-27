@@ -12,7 +12,7 @@ public static class GameSettings
 	/// <summary>
 	/// Whether objects can be pushed out of the ring.
 	/// </summary>
-	public static bool RingOut = true;
+	public static bool RingOut = false;
 
 	/// <summary>
 	/// If true, then when capturing an unowned object, ownership *transfers* to that object,

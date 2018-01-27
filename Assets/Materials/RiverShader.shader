@@ -23,7 +23,7 @@ Shader "Water/My River" {
             "_Render"
         }
 
-            CGPROGRAM
+        CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
         #pragma surface surf Standard fullforwardshadows vertex:vert
 
@@ -58,6 +58,7 @@ Shader "Water/My River" {
             o.Smoothness = _Glossiness;
             o.Alpha = _Color.a;
 
+            //TODO: Refract.
             float4 worldRender = tex2Dproj(_Render, UNITY_PROJ_COORD(IN.grabUV));
 
             float3 norm1 = UnpackNormal(tex2D(_Normal1, IN.uv_Normal1 + (_Normal1Pan * _Time.x))),
