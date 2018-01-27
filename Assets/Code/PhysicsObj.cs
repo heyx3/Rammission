@@ -6,6 +6,13 @@ using UnityEngine;
 
 public class PhysicsObj : MonoBehaviour
 {
+	/// <summary>
+	/// Raised when this object is converted or destroyed.
+	/// The first int is the old player ID (if it was converted).
+	/// The second int is its new/current player ID (or null if it was killed).
+	/// </summary>
+	public event Action<PhysicsObj, int, int?> OnConvertedOrKilled;
+
 	public int PlayerID = -1;
 	public float Acceleration = 10.0f,
 				 TurnSpeed = 6.0f;
@@ -82,6 +89,9 @@ public class PhysicsObj : MonoBehaviour
 	{
 		if (transform.position.y <= KillHeight)
 		{
+			if (OnConvertedOrKilled != null)
+				OnConvertedOrKilled(this, PlayerID, null);
+
 			Destroy(gameObject);
 			return;
 		}
@@ -151,14 +161,57 @@ public class PhysicsObj : MonoBehaviour
 		//    at least one of them is actually facing towards the other.
 		if (thisDot > 0.0f | otherDot > 0.0f)
 			if (thisDot < otherDot)
-				Captured(otherObj);
+			{
+				if (otherObj.PlayerID >= 0)
+					Captured(otherObj);
+			}
 			else
-				otherObj.Captured(this);
+			{
+				if (PlayerID >= 0)
+					otherObj.Captured(this);
+			}
 	}
 	private void Captured(PhysicsObj capturer)
 	{
-		if (capturer.PlayerID >= 0)
-			PlayerID = capturer.PlayerID;
+		//There are different rules when capturing a neutral piece vs an enemy piece.
+
+		if (PlayerID == -1)
+		{
+			SetNewID(capturer.PlayerID);
+
+			if (GameSettings.TransferWhenCaptureNeutral)
+				capturer.SetNewID(-1);
+		}
+		else switch (GameSettings.EnemyCaptureMode)
+		{
+			case GameSettings.EnemyCaptureModes.Convert:
+				SetNewID(capturer.PlayerID);
+			break;
+
+			case GameSettings.EnemyCaptureModes.Destroy:
+				SetNewID(null);
+				break;
+
+			case GameSettings.EnemyCaptureModes.Transfer:
+				SetNewID(capturer.PlayerID);
+				capturer.SetNewID(-1);
+				break;
+		}
+	}
+	/// <summary>
+	/// Sets this object's ID (or destroys it if "null" is passed).
+	/// </summary>
+	private void SetNewID(int? newID)
+	{
+		int oldID = PlayerID;
+		if (newID.HasValue)
+			PlayerID = newID.Value;
+
+		if (OnConvertedOrKilled != null)
+			OnConvertedOrKilled(this, oldID, newID);
+
+		if (!newID.HasValue)
+			Destroy(gameObject);
 	}
 
 	private void OnCollisionExit(Collision collision)

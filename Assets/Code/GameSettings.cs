@@ -15,15 +15,32 @@ public static class GameSettings
 	public static bool RingOut = true;
 
 	/// <summary>
-	/// Different ways to handle an object "capturing" another.
+	/// If true, then when capturing an unowned object, ownership *transfers* to that object,
+	///     so that the player still has the same number of pieces.
+	/// If false, the unowned object is just added to the player's team,
+	///     increasing the size of his army.
 	/// </summary>
-	public enum CaptureModes
+	public static bool TransferWhenCaptureNeutral = true;
+
+	/// <summary>
+	/// The different ways to handle capturing of enemy objects.
+	/// /// </summary>
+	public enum EnemyCaptureModes
 	{
+		/// <summary>
+		/// Convert the enemy object to this team.
+		/// </summary>
 		Convert,
+		/// <summary>
+		/// Transfer ownership to the enemy object, leaving the capturer neutral.
+		/// </summary>
 		Transfer,
+		/// <summary>
+		/// Destroy the enemy object.
+		/// </summary>
 		Destroy,
 	}
-	public static CaptureModes CaptureMode;
+	public static EnemyCaptureModes EnemyCaptureMode = EnemyCaptureModes.Transfer;
 
 	/// <summary>
 	/// The number of players in the game.
