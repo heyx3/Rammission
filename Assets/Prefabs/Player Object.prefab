@@ -47,36 +47,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1966708676062762
+--- !u!1 &1850013704199812
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4026886875626870}
-  - component: {fileID: 33537843865041444}
-  - component: {fileID: 23801094903821106}
+  - component: {fileID: 4632640521056366}
+  - component: {fileID: 33895300610946898}
+  - component: {fileID: 23660141422353846}
   m_Layer: 0
-  m_Name: Nose
+  m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4026886875626870
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1966708676062762}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.9}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
-  m_Children: []
-  m_Father: {fileID: 4669661344249554}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4289382755246054
 Transform:
   m_ObjectHideFlags: 1
@@ -90,6 +77,19 @@ Transform:
   m_Father: {fileID: 4669661344249554}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4632640521056366
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850013704199812}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.679, z: 0.549}
+  m_LocalScale: {x: 1, y: 1, z: 0.001}
+  m_Children: []
+  m_Father: {fileID: 4669661344249554}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4669661344249554
 Transform:
   m_ObjectHideFlags: 1
@@ -101,16 +101,16 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4289382755246054}
-  - {fileID: 4026886875626870}
+  - {fileID: 4632640521056366}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23801094903821106
+--- !u!23 &23660141422353846
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1966708676062762}
+  m_GameObject: {fileID: 1850013704199812}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -119,7 +119,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c569b8a7c791e374ebeecd84bba7f929, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -179,14 +179,14 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1477184876685748}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!33 &33537843865041444
+  m_Mesh: {fileID: 4300000, guid: 274339f15576439409378016dbf2d1e0, type: 3}
+--- !u!33 &33895300610946898
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1966708676062762}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_GameObject: {fileID: 1850013704199812}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &54814483275962272
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -228,6 +228,12 @@ MonoBehaviour:
   PlayerID: 0
   Acceleration: 15
   TurnSpeed: 500
+  AngryEyesThreshold: 0
+  KillHeight: -10
+  NormalEyes: {fileID: 2100000, guid: c569b8a7c791e374ebeecd84bba7f929, type: 2}
+  AngryEyes: {fileID: 2100000, guid: f832e5a4837b6c340a1628d62767d7ec, type: 2}
+  ScaredEyes: {fileID: 2100000, guid: a9a54c120e6b5934890f21222f3b339e, type: 2}
+  EyesRenderer: {fileID: 23660141422353846}
   Control_Forward: 7700000011010000
   Control_Backward: 7300000012010000
   Control_TurnLeft: 6100000014010000
