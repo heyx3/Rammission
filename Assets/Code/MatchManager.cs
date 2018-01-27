@@ -23,7 +23,8 @@ public class MatchManager : MonoBehaviour
 
 	private void Awake(){
 		// hold off on starting the match we need to find out what game type.
-		SceneManager.LoadScene("Scenes/MenuScene", LoadSceneMode.Additive);		
+		//SceneManager.LoadScene("Scenes/MenuScene", LoadSceneMode.Additive);		
+
 
 		this.MatchStart();
 	}
