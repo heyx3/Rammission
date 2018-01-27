@@ -119,38 +119,6 @@ namespace GPUGraph.Applications
 																 0.5f + (0.5f * normal.z),
 																 0.5f + (0.5f * normal.y),
 																 1.0f);
-					continue;
-
-					bool xBig = x > 0,
-						 yBig = y > 0,
-						 xSmall = x < tex.width - 1,
-						 ySmall = y < tex.height - 1;
-					if (xSmall)
-					{
-						float diff = bumpmap[x, y] - bumpmap[x + 1, y];
-						normal += new Vector3(NormalStrength, diff, 0.0f);
-					}
-					if (xBig)
-					{
-						float diff = bumpmap[x, y] - bumpmap[x - 1, y];
-						normal += new Vector3(-NormalStrength, diff, 0.0f);
-					}
-					if (ySmall)
-					{
-						float diff = bumpmap[x, y] - bumpmap[x, y + 1];
-						normal += new Vector3(0.0f, diff, NormalStrength);
-					}
-					if (yBig)
-					{
-						float diff = bumpmap[x, y] - bumpmap[x, y - 1];
-						normal += new Vector3(0.0f, diff, -NormalStrength);
-					}
-
-					normal = normal.normalized;
-					pixelColors[x + (y * tex.width)] = new Color(0.5f + (0.5f * normal.x),
-																 0.5f + (0.5f * normal.y),
-																 0.5f + (0.5f * normal.z),
-																 1.0f);
 				}
 			}
 
