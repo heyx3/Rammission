@@ -58,9 +58,6 @@ public class PhysicsObj : MonoBehaviour
 		if (rnd != null)
 			rnd.material = PlayerMaterials[PlayerID + 1];
 
-		if (rgd == null)
-			return;
-
 
 		//Get acceleration from rivers.
 		Vector2 accel = Vector2.zero;
@@ -287,7 +284,8 @@ public class PhysicsObj : MonoBehaviour
 	
 	private void DoToAllTeammates(Action<PhysicsObj> toDo)
 	{
-		foreach (var ally in MatchManager.Instance.PhysicsObjs.Where(obj => obj.PlayerID == PlayerID))
+		var allies = MatchManager.Instance.PhysicsObjs.Where (obj => obj.PlayerID == PlayerID).ToList ();
+		foreach (var ally in allies)
 			toDo(ally);
 	}
 	private void Split(float time)
@@ -295,6 +293,7 @@ public class PhysicsObj : MonoBehaviour
 		GameObject obj = Instantiate (Prefab);
 		var physObj = obj.GetComponent<PhysicsObj> ();
 		physObj.PlayerID = PlayerID;
+		MatchManager.Instance.HeyTheresANewPhysObj (physObj);
 	
 		float angleIncre = Mathf.PI / 4;
 	
@@ -312,7 +311,12 @@ public class PhysicsObj : MonoBehaviour
 
 		isPowered = true;
 		
-		StartCoroutine(Timer(time, () => Destroy(gameObject)));
+		StartCoroutine (Timer (time, () =>
+		{
+			if (OnConvertedOrKilled != null)
+				OnConvertedOrKilled(this, PlayerID, null);
+			Destroy (gameObject);
+		}));
 	}
 	private void SpeedUp(float time)
 	{
