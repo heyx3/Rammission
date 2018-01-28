@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -20,10 +21,15 @@ public class PhysicsObj : MonoBehaviour
 	public float KillHeight = -10.0f;
 	public float PushAwayStrength = 10.0f;
 	public float RiverFlowStrength = 10.0f;
+	
+	public float PowerUpSpeedScale = 2.0f;
+	public float PowerUpScale = 1.5f;
 
+	public GameObject Prefab;
 	public Material NormalEyes, AngryEyes, ScaredEyes;
 	public Renderer EyesRenderer;
 	public GameObject HitEffects;
+
 	public List<Material> PlayerMaterials = new List<Material>();
 
 
@@ -32,6 +38,8 @@ public class PhysicsObj : MonoBehaviour
 	private HashSet<PhysicsObj> currentCollidingObjs = new HashSet<PhysicsObj>();
 	private HashSet<Transform> riverFlows = new HashSet<Transform>();
 	private float timeWithCollisions = 0.0001f;
+
+	private bool isPowered = false;
 
 
 	private void Awake()
@@ -50,22 +58,27 @@ public class PhysicsObj : MonoBehaviour
 		if (rnd != null)
 			rnd.material = PlayerMaterials[PlayerID + 1];
 
-		if (rgd == null || PlayerID < 0)
+		if (rgd == null)
 			return;
 
-		var moveInput = MyInput.GetInput(PlayerID);
 
 		//Get acceleration from rivers.
-		Vector2 riverAccel = Vector2.zero;
+		Vector2 accel = Vector2.zero;
 		foreach (var riverFlow in riverFlows)
-			riverAccel += riverFlow.forward.Horz().normalized;
-		riverAccel = riverAccel.normalized * RiverFlowStrength;
+			accel += riverFlow.forward.Horz().normalized;
+		accel = accel.normalized * RiverFlowStrength;
+
+		if (PlayerID >= 0)
+		{
+			var moveInput = MyInput.GetInput(PlayerID);
+
+			accel += transform.forward.Horz().normalized * moveInput.y * Acceleration;
+			transform.Rotate(new Vector3(0.0f, moveInput.x * TurnSpeed * Time.deltaTime, 0.0f),
+							 Space.World);
+		}
 
 		//Accelerate forwards/backwards.
-		rgd.velocity += (riverAccel.To3D() + (transform.forward * moveInput.y * Acceleration)) *
-						Time.deltaTime;
-		transform.Rotate(new Vector3(0.0f, moveInput.x * TurnSpeed * Time.deltaTime, 0.0f),
-						 Space.World);
+		rgd.velocity += accel.To3D() * Time.deltaTime;
 	}
 	private void LateUpdate()
 	{
@@ -221,11 +234,115 @@ public class PhysicsObj : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.tag == "River Flow Trigger")
+		{
 			riverFlows.Add(other.transform);
+		}
+		else if (PlayerID >= 0 && !isPowered)
+		{
+			var powerup = other.GetComponent<Powerup>();
+			if (powerup != null && powerup.IsCollectible)
+			{
+				Destroy(other.gameObject);
+				switch (other.gameObject.tag)
+				{
+					case "Split Powerup":
+						DoToAllTeammates(obj => obj.Split(powerup.EffectLength));
+						break;
+					case "Speedup Powerup":
+						DoToAllTeammates(obj => obj.SpeedUp(powerup.EffectLength));
+						break;
+					case "Speeddown Powerup":
+						DoToAllTeammates(obj => obj.SpeedDown(powerup.EffectLength));
+						break;
+					case "Shrink Powerup":
+						DoToAllTeammates(obj => obj.Shrink(powerup.EffectLength));
+						break;
+					case "Enlarge Powerup":
+						DoToAllTeammates(obj => obj.Enlarge(powerup.EffectLength));
+						break;
+					case "Realign Powerup":
+						Realign();
+						break;
+
+					default:
+						Debug.LogWarning("Collision with unknown powerup " + other.gameObject.name);
+						break;
+				}
+			}
+		}
 	}
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.gameObject.tag == "River Flow Trigger")
 			riverFlows.Remove(other.transform);
+	}
+	
+	IEnumerator Timer(float time, Action toDo)
+	{
+		yield return new WaitForSeconds(time);
+		toDo();
+	}
+	
+	private void DoToAllTeammates(Action<PhysicsObj> toDo)
+	{
+		foreach (var ally in MatchManager.Instance.PhysicsObjs.Where(obj => obj.PlayerID == PlayerID))
+			toDo(ally);
+	}
+	private void Split(float time)
+	{
+		GameObject obj = Instantiate (Prefab);
+		var physObj = obj.GetComponent<PhysicsObj> ();
+		physObj.PlayerID = PlayerID;
+	
+		float angleIncre = Mathf.PI / 4;
+	
+		Vector3 divertVec = new Vector3 (rgd.velocity.x*(1+Mathf.Cos(angleIncre)), 0.0f, rgd.velocity.z);
+		physObj.rgd.velocity = rgd.velocity+divertVec;
+	
+		float objScale = obj.transform.localScale.x;
+		float offset = Mathf.Clamp (
+			Mathf.Lerp(objScale, 1.5f*objScale, UnityEngine.Random.value),
+			objScale,
+			1.5f*objScale
+			);
+		Vector3 posDiffVec = new Vector3(offset, 0, offset);
+		obj.transform.position = transform.position + posDiffVec;
+
+		isPowered = true;
+		
+		StartCoroutine(Timer(time, () => Destroy(gameObject)));
+	}
+	private void SpeedUp(float time)
+	{
+		rgd.velocity *= PowerUpSpeedScale;
+		isPowered = true;
+		StartCoroutine(Timer(time, () => { isPowered = false; rgd.velocity /= PowerUpSpeedScale; }));
+	}
+	private void SpeedDown(float time)
+	{
+		rgd.velocity /= PowerUpSpeedScale;
+		isPowered = true;
+		StartCoroutine(Timer(time, () => { isPowered = false; rgd.velocity *= PowerUpSpeedScale; }));
+	}
+	private void Shrink(float time) 
+	{
+		transform.localScale /= PowerUpScale;
+		isPowered = true;
+		StartCoroutine(Timer(time, () => { isPowered = false; transform.localScale *= PowerUpScale; }));
+	}
+	private void Enlarge(float time)
+	{
+		transform.localScale *= PowerUpScale;
+		isPowered = true;
+		StartCoroutine(Timer(time, () => { isPowered = false; transform.localScale /= PowerUpScale; }));
+	}
+	private void Realign()
+	{
+		Vector3 forward = transform.forward;
+		foreach (var ally in MatchManager.Instance.PhysicsObjs.Where(obj => obj.PlayerID == PlayerID))
+		{
+			ally.transform.forward = forward;
+			ally.rgd.velocity = rgd.velocity;
+		}
 	}
 }

@@ -1182,9 +1182,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d2046d9bed5c643a45914fe2f6aea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 1496131845716156, guid: e25f5f95a73f45e458a500ec953754b1, type: 2}
+  PhysObjPrefab: {fileID: 0}
+  PowerupPrefabs:
+  - {fileID: 1237539274693814, guid: 42679cbe867a4d34da38fad260860f15, type: 2}
+  - {fileID: 1982043837446730, guid: c02d9ad24603a164c8f74a91f3ddbae8, type: 2}
+  - {fileID: 1362122010680934, guid: 3ac942304b3a2574db89c94b9c1add6f, type: 2}
+  - {fileID: 1556318259998302, guid: 2a80e6de99d012943946da3a8b11535b, type: 2}
+  - {fileID: 1889995531961826, guid: 4624160b3545ca44585ba7f425bca8d0, type: 2}
   Radius: 25
   StartY: 1
+  MinPowerupSpawnTime: 7
+  MaxPowerupSpawnTime: 15
   ringsToDrop:
   - {fileID: 988499261}
   - {fileID: 710300593}
