@@ -144,6 +144,8 @@ public class PhysicsObj : MonoBehaviour
 
 		float thisDot = Vector2.Dot(rgd.velocity.Horz(), toOther),
 			  otherDot = Vector2.Dot(otherObj.rgd.velocity.Horz(), -toOther);
+		thisDot *= rgd.mass;
+		otherDot *= otherObj.rgd.mass;
 		
 		//If there is a tie, randomly decide the winner.
 		thisDot += UnityEngine.Random.Range(-0.0001f, 0.0001f);
@@ -327,14 +329,16 @@ public class PhysicsObj : MonoBehaviour
 	private void Shrink(float time) 
 	{
 		transform.localScale /= PowerUpScale;
+		rgd.mass /= PowerUpScale;
 		isPowered = true;
-		StartCoroutine(Timer(time, () => { isPowered = false; transform.localScale *= PowerUpScale; }));
+		StartCoroutine(Timer(time, () => { isPowered = false; rgd.mass *= PowerUpScale; transform.localScale *= PowerUpScale; }));
 	}
 	private void Enlarge(float time)
 	{
 		transform.localScale *= PowerUpScale;
+		rgd.mass *= PowerUpScale;
 		isPowered = true;
-		StartCoroutine(Timer(time, () => { isPowered = false; transform.localScale /= PowerUpScale; }));
+		StartCoroutine(Timer(time, () => { isPowered = false; rgd.mass /= PowerUpScale; transform.localScale /= PowerUpScale; }));
 	}
 	private void Realign()
 	{
