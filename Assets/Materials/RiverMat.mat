@@ -40,7 +40,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _FoamTex:
         m_Texture: {fileID: 2800000, guid: b855735fcb79ace43a633db4a544887b, type: 3}
-        m_Scale: {x: 42.94, y: 1}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
@@ -52,11 +52,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Normal1:
         m_Texture: {fileID: 2800000, guid: a02f118b92e9f8f4bb7d812c1fa89680, type: 3}
-        m_Scale: {x: 75, y: 1}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal2:
         m_Texture: {fileID: 2800000, guid: a02f118b92e9f8f4bb7d812c1fa89680, type: 3}
-        m_Scale: {x: 75, y: 1}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -71,22 +71,28 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FoamPan: 10
+    - _FoamHDR: 1
+    - _FoamPan: 1
+    - _FoamScale: 31.36
     - _GlossMapScale: 1
-    - _Glossiness: 0
+    - _Glossiness: 0.857
     - _GlossyReflections: 1
-    - _Metallic: 0.037
+    - _Metallic: 0.779
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _RefractIndex: 1.07
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Transparency: 0.658
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.07006921, g: 0.20628804, b: 0.5294118, a: 1}
+    - _Color: {r: 0.6102941, g: 0.725862, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamCol: {r: 0.41176468, g: 0.68357, b: 1, a: 1}
-    - _Normal1Pan: {r: 30, g: 1, b: 0, a: 0}
-    - _Normal2Pan: {r: 25, g: -1, b: 0, a: 0}
+    - _FoamCol: {r: 1, g: 1, b: 1, a: 1}
+    - _Normal1Pan: {r: 1.5, g: 0.05, b: 0, a: 0}
+    - _Normal1PanScale: {r: 0.02, g: 0.1, b: 61.6, a: 1}
+    - _Normal2Pan: {r: 1.25, g: -0.05, b: 0, a: 0}
+    - _Normal2PanScale: {r: 0.005, g: -0.07, b: 70, a: 1}

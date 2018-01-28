@@ -18,30 +18,11 @@ public class PhysicsObj : MonoBehaviour
 				 TurnSpeed = 6.0f;
 	public float AngryEyesThreshold = 0.0f;
 	public float KillHeight = -10.0f;
+	public float PushAwayStrength = 10.0f;
 
 	public Material NormalEyes, AngryEyes, ScaredEyes;
 	public Renderer EyesRenderer;
-
-	public List<KeyCode> Control_Forward = new List<KeyCode>()
-	{
-		KeyCode.W,
-		KeyCode.UpArrow
-	};
-	public List<KeyCode> Control_Backward = new List<KeyCode>()
-	{
-		KeyCode.S,
-		KeyCode.DownArrow
-	};
-	public List<KeyCode> Control_TurnLeft = new List<KeyCode>()
-	{
-		KeyCode.A,
-		KeyCode.LeftArrow
-	};
-	public List<KeyCode> Control_TurnRight = new List<KeyCode>()
-	{
-		KeyCode.D,
-		KeyCode.RightArrow
-	};
+	public GameObject HitEffects;
 	public List<Material> PlayerMaterials = new List<Material>();
 
 
@@ -68,21 +49,11 @@ public class PhysicsObj : MonoBehaviour
 		if (rgd == null || PlayerID < 0)
 			return;
 
-		//Accelerate forwards/backwards.
-		float direction = 0.0f;
-		if (Input.GetKey(Control_Forward[PlayerID]))
-			direction += 1.0f;
-		if (Input.GetKey(Control_Backward[PlayerID]))
-			direction -= 1.0f;
-		rgd.velocity += transform.forward * direction * Acceleration * Time.deltaTime;
+		var moveInput = MyInput.GetInput(PlayerID);
 
-		//Turn.
-		float turnDir = 0.0f;
-		if (Input.GetKey(Control_TurnLeft[PlayerID]))
-			turnDir -= 1.0f;
-		if (Input.GetKey(Control_TurnRight[PlayerID]))
-			turnDir += 1.0f;
-		transform.Rotate(new Vector3(0.0f, turnDir * TurnSpeed * Time.deltaTime, 0.0f),
+		//Accelerate forwards/backwards.
+		rgd.velocity += transform.forward * moveInput.y * Acceleration * Time.deltaTime;
+		transform.Rotate(new Vector3(0.0f, moveInput.x * TurnSpeed * Time.deltaTime, 0.0f),
 						 Space.World);
 	}
 	private void LateUpdate()
@@ -156,6 +127,10 @@ public class PhysicsObj : MonoBehaviour
 		//Only count it as a capture if
 		//    at least one of them is actually facing towards the other.
 		if (thisDot > 0.0f | otherDot > 0.0f)
+		{
+			Instantiate(HitEffects).transform.position =
+				collision.contacts[0].point;
+
 			if (thisDot < otherDot)
 			{
 				if (otherObj.PlayerID >= 0)
@@ -166,17 +141,26 @@ public class PhysicsObj : MonoBehaviour
 				if (PlayerID >= 0)
 					otherObj.Captured(this);
 			}
+		}
 	}
 	private void Captured(PhysicsObj capturer)
 	{
 		//There are different rules when capturing a neutral piece vs an enemy piece.
+
+		Vector2 towardsCapturer = (capturer.transform.position.Horz() -
+								   transform.position.Horz()).normalized;
+		rgd.velocity += (towardsCapturer * -PushAwayStrength).To3D();
+		capturer.rgd.velocity += (towardsCapturer * PushAwayStrength).To3D();
 
 		if (PlayerID == -1)
 		{
 			SetNewID(capturer.PlayerID);
 
 			if (GameSettings.TransferWhenCaptureNeutral)
+			{
+				transform.forward = capturer.transform.forward;
 				capturer.SetNewID(-1);
+			}
 		}
 		else switch (GameSettings.EnemyCaptureMode)
 		{
@@ -189,6 +173,7 @@ public class PhysicsObj : MonoBehaviour
 				break;
 
 			case GameSettings.EnemyCaptureModes.Transfer:
+				transform.forward = capturer.transform.forward;
 				SetNewID(capturer.PlayerID);
 				capturer.SetNewID(-1);
 				break;
