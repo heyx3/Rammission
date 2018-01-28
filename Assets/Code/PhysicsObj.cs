@@ -248,7 +248,6 @@ public class PhysicsObj : MonoBehaviour
 			var powerup = other.GetComponent<Powerup>();
 			if (powerup != null && powerup.IsCollectible)
 			{
-				Destroy(other.gameObject);
 				switch (other.gameObject.tag)
 				{
 					case "Split Powerup":
@@ -274,6 +273,8 @@ public class PhysicsObj : MonoBehaviour
 						Debug.LogWarning("Collision with unknown powerup " + other.gameObject.name);
 						break;
 				}
+				
+				powerup.Collect();
 			}
 		}
 	}
