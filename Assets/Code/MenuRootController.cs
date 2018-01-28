@@ -34,6 +34,10 @@ public class MenuRootController : MonoBehaviour {
 	
 	public void lerpTo(int targetId){
 		Debug.Log("Hello, let's LERP! Last time we did this it was " + this.lerpStart);
+		if(this.currentTarget){
+			this.currentTarget.GetComponentInChildren<Canvas>().GetComponent<FadableMenu>().fadeOut();
+			Debug.Log("Fading out: " + this.currentTarget.GetComponentInChildren<Canvas>().name);
+		}
 		this.currentTarget = this.Targets[targetId];
 		Debug.Log("Moving to " + this.currentTarget.name);
 		this.lerpStart = Time.time;
