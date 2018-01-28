@@ -24,13 +24,15 @@ public class PhysicsObj : MonoBehaviour
 	
 	public float PowerUpSpeedScale = 2.0f;
 	public float PowerUpScale = 1.5f;
-
-	public GameObject Prefab;
+	
 	public Material NormalEyes, AngryEyes, ScaredEyes;
 	public Renderer EyesRenderer;
 	public GameObject HitEffects;
 
 	public List<Material> PlayerMaterials = new List<Material>();
+
+	[SerializeField]
+	private bool startsInMap = false;
 
 
 	private Rigidbody rgd;
@@ -52,6 +54,11 @@ public class PhysicsObj : MonoBehaviour
 		collisionEvents.CollisionExit += (obj, coll) => OnCollisionExit(coll);
 		collisionEvents.TriggerEnter += (obj, coll) => OnTriggerEnter(coll);
 		collisionEvents.TriggerExit += (obj, coll) => OnTriggerExit(coll);
+	}
+	private void Start()
+	{
+		if (startsInMap)
+			MatchManager.Instance.HeyTheresANewPhysObj(this);
 	}
 	private void FixedUpdate()
 	{
@@ -141,6 +148,8 @@ public class PhysicsObj : MonoBehaviour
 
 		float thisDot = Vector2.Dot(rgd.velocity.Horz(), toOther),
 			  otherDot = Vector2.Dot(otherObj.rgd.velocity.Horz(), -toOther);
+		thisDot *= rgd.mass;
+		otherDot *= otherObj.rgd.mass;
 		
 		//If there is a tie, randomly decide the winner.
 		thisDot += UnityEngine.Random.Range(-0.0001f, 0.0001f);
@@ -239,7 +248,6 @@ public class PhysicsObj : MonoBehaviour
 			var powerup = other.GetComponent<Powerup>();
 			if (powerup != null && powerup.IsCollectible)
 			{
-				Destroy(other.gameObject);
 				switch (other.gameObject.tag)
 				{
 					case "Split Powerup":
@@ -265,6 +273,8 @@ public class PhysicsObj : MonoBehaviour
 						Debug.LogWarning("Collision with unknown powerup " + other.gameObject.name);
 						break;
 				}
+				
+				powerup.Collect();
 			}
 		}
 	}
@@ -288,7 +298,7 @@ public class PhysicsObj : MonoBehaviour
 	}
 	private void Split(float time)
 	{
-		GameObject obj = Instantiate (Prefab);
+		GameObject obj = Instantiate (gameObject);
 		var physObj = obj.GetComponent<PhysicsObj> ();
 		physObj.PlayerID = PlayerID;
 		MatchManager.Instance.HeyTheresANewPhysObj (physObj);
@@ -320,25 +330,27 @@ public class PhysicsObj : MonoBehaviour
 	{
 		rgd.velocity *= PowerUpSpeedScale;
 		isPowered = true;
-		StartCoroutine(Timer(time, () => { isPowered = false; rgd.velocity /= PowerUpSpeedScale; }));
+		StartCoroutine(Timer(time, () => { isPowered = false; if (rgd != null) rgd.velocity /= PowerUpSpeedScale; }));
 	}
 	private void SpeedDown(float time)
 	{
 		rgd.velocity /= PowerUpSpeedScale;
 		isPowered = true;
-		StartCoroutine(Timer(time, () => { isPowered = false; rgd.velocity *= PowerUpSpeedScale; }));
+		StartCoroutine(Timer(time, () => { isPowered = false; if (rgd != null) rgd.velocity *= PowerUpSpeedScale; }));
 	}
 	private void Shrink(float time) 
 	{
 		transform.localScale /= PowerUpScale;
+		rgd.mass /= PowerUpScale;
 		isPowered = true;
-		StartCoroutine(Timer(time, () => { isPowered = false; transform.localScale *= PowerUpScale; }));
+		StartCoroutine(Timer(time, () => { isPowered = false; if (rgd != null) rgd.mass *= PowerUpScale; transform.localScale *= PowerUpScale; }));
 	}
 	private void Enlarge(float time)
 	{
 		transform.localScale *= PowerUpScale;
+		rgd.mass *= PowerUpScale;
 		isPowered = true;
-		StartCoroutine(Timer(time, () => { isPowered = false; transform.localScale /= PowerUpScale; }));
+		StartCoroutine(Timer(time, () => { isPowered = false; if (rgd != null) rgd.mass /= PowerUpScale; transform.localScale /= PowerUpScale; }));
 	}
 	private void Realign()
 	{

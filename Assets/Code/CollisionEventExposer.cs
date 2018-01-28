@@ -7,7 +7,6 @@ using UnityEngine;
 /// <summary>
 /// Provides events for when this object collides.
 /// </summary>
-[RequireComponent(typeof(Collider))]
 public class CollisionEventExposer : MonoBehaviour
 {
 	public event Action<GameObject, Collision> CollisionEnter,
