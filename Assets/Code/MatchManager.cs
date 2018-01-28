@@ -6,9 +6,17 @@ using UnityEngine;
 
 public class MatchManager : MonoBehaviour
 {
-	public GameObject Prefab;
+	public static MatchManager Instance { get; private set; }
+
+
+	public GameObject PhysObjPrefab;
+	public GameObject[] PowerupPrefabs = new GameObject[0];
 	public float Radius = 25.0f;
 	public float StartY = 1.0f;
+	public float MinPowerupSpawnTime = 7.0f,
+				 MaxPowerupSpawnTime = 15.0f;
+
+	public IEnumerable<PhysicsObj> PhysicsObjs { get { return objs; } }
 
 	[SerializeField]
 	private List<Transform> ringsToDrop = new List<Transform>();
@@ -23,15 +31,17 @@ public class MatchManager : MonoBehaviour
 
 	private void Awake()
 	{
+		Instance = this;
+
 		objs = new List<PhysicsObj>(GameSettings.NObjectsInField);
 		for (int i = 0; i < GameSettings.NObjectsInField; ++i)
 		{
-			var obj = Instantiate(Prefab);
+			var obj = Instantiate(PhysObjPrefab);
 			objs.Add(obj.GetComponent<PhysicsObj>());
-			obj.transform.position = Quaternion.AngleAxis(UnityEngine.Random.Range(0.0f, 360.0f), Vector3.up) *
-									 new Vector3(UnityEngine.Random.Range(0.0f, Radius), StartY, 0.0f);
+			obj.transform.position = RandomPosInArena();
 			objs[i].OnConvertedOrKilled += Callback_PieceConvertedOrKilled;
 		}
+		var neutralObjs = objs.ToList();
 
 		nPiecesPerPlayer = new int[GameSettings.NPlayers];
 		for (int playerI = 0; playerI < GameSettings.NPlayers; ++playerI)
@@ -40,13 +50,12 @@ public class MatchManager : MonoBehaviour
 			for (int objI = 0; objI < GameSettings.NObjectsPerPlayer; ++objI)
 			{
 				nPiecesPerPlayer[playerI] += 1;
-				int i = UnityEngine.Random.Range(0, objs.Count);
-				objs[i].PlayerID = playerI;
-				objs.RemoveAt(i);
+				int i = UnityEngine.Random.Range(0, neutralObjs.Count);
+				neutralObjs[i].PlayerID = playerI;
+				neutralObjs.RemoveAt(i);
 			}
 		}
-
-		foreach (var obj in objs)
+		foreach (var obj in neutralObjs)
 			obj.PlayerID = -1;
 
 		for (int i = 0; i < ringsToDrop.Count; ++i)
@@ -54,6 +63,8 @@ public class MatchManager : MonoBehaviour
 				Destroy(ringsToDrop[i].gameObject);
 			else
 				StartCoroutine(DropRingCoroutine(ringsToDrop[i], ringDropTimes[i]));
+
+		StartCoroutine(SpawnPowerupCoroutine());
 	}
 
 	/// <summary>
@@ -67,6 +78,12 @@ public class MatchManager : MonoBehaviour
 		Debug.Log(winnerID == -1 ?
 				      "No player wins!" :
 					  ("Player " + winnerID + " wins!"));
+	}
+
+	public Vector3 RandomPosInArena()
+	{
+		return Quaternion.AngleAxis(UnityEngine.Random.Range(0.0f, 360.0f), Vector3.up) *
+			   new Vector3(UnityEngine.Random.Range(0.0f, Radius), StartY, 0.0f);
 	}
 
 	private void Callback_PieceConvertedOrKilled(PhysicsObj obj, int oldID, int? newID)
@@ -104,6 +121,18 @@ public class MatchManager : MonoBehaviour
 		if (ringsToDrop.Count == 0)
 		{
 			Debug.LogError("Start game now!");
+		}
+	}
+	private System.Collections.IEnumerator SpawnPowerupCoroutine()
+	{
+		while (true)
+		{
+			yield return new WaitForSeconds(UnityEngine.Random.Range(MinPowerupSpawnTime / GameSettings.PowerupFrequency,
+																	 MaxPowerupSpawnTime / GameSettings.PowerupFrequency));
+
+			//Spawn a powerup at a random position.
+			var prefab = PowerupPrefabs[UnityEngine.Random.Range(0, PowerupPrefabs.Length)];
+			Instantiate(prefab).transform.position = RandomPosInArena();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -20,23 +21,14 @@ public class PhysicsObj : MonoBehaviour
 	public float KillHeight = -10.0f;
 	public float PushAwayStrength = 10.0f;
 	public float RiverFlowStrength = 10.0f;
+	
+	public float PowerUpSpeedScale = 2.0f;
+	public float PowerUpScale = 1.5f;
 
 	public GameObject Prefab;
 	public Material NormalEyes, AngryEyes, ScaredEyes;
 	public Renderer EyesRenderer;
 	public GameObject HitEffects;
-
-
-	public List<KeyCode> Control_Power_One = new List<KeyCode> ()
-	{
-		KeyCode.E,
-		KeyCode.L
-	};
-	public List<KeyCode> Control_Power_Two = new List<KeyCode> ()
-	{
-		KeyCode.Q,
-		KeyCode.K
-	};
 
 	public List<Material> PlayerMaterials = new List<Material>();
 
@@ -47,9 +39,7 @@ public class PhysicsObj : MonoBehaviour
 	private HashSet<Transform> riverFlows = new HashSet<Transform>();
 	private float timeWithCollisions = 0.0001f;
 
-	private float powerUpTime = 5.0f;
-	private bool hasPowered;
-	private float scaleMultiply = 1.5f;
+	private bool isPowered = false;
 
 
 	private void Awake()
@@ -241,48 +231,64 @@ public class PhysicsObj : MonoBehaviour
 		currentCollidingObjs.Remove(obj);
 	}
 
-
-	private void PowerUpdate ()
+	private void OnTriggerEnter(Collider other)
 	{
-		StartCoroutine (PowerOneUpdate ());
-		//PowerOneUpdate ();
-		StartCoroutine (PowerTwoUpdate ());
-	}
-
-
-	IEnumerator PowerOneUpdate()
-	{	
-		if (Input.GetKeyUp (Control_Power_One [PlayerID]) && !hasPowered) 
+		if (other.gameObject.tag == "River Flow Trigger")
 		{
-			Split ();
-			yield return new WaitForSeconds (powerUpTime);
-			Destroy (this.gameObject);
-			hasPowered = false;
+			riverFlows.Add(other.transform);
 		}
-			
-	}
-
-
-	IEnumerator PowerTwoUpdate()
-	{
-		if (Input.GetKeyDown (Control_Power_Two [PlayerID]) && !hasPowered) 
+		else if (PlayerID >= 0 && !isPowered)
 		{
-			Enlarge ();
-			yield return new WaitForSeconds (powerUpTime);
-			Shrink ();
-			hasPowered = false;
+			var powerup = other.GetComponent<Powerup>();
+			if (powerup != null && powerup.IsCollectible)
+			{
+				Destroy(other.gameObject);
+				switch (other.gameObject.tag)
+				{
+					case "Split Powerup":
+						DoToAllTeammates(obj => obj.Split(powerup.EffectLength));
+						break;
+					case "Speedup Powerup":
+						DoToAllTeammates(obj => obj.SpeedUp(powerup.EffectLength));
+						break;
+					case "Speeddown Powerup":
+						DoToAllTeammates(obj => obj.SpeedDown(powerup.EffectLength));
+						break;
+					case "Shrink Powerup":
+						DoToAllTeammates(obj => obj.Shrink(powerup.EffectLength));
+						break;
+					case "Enlarge Powerup":
+						DoToAllTeammates(obj => obj.Enlarge(powerup.EffectLength));
+						break;
+					case "Realign Powerup":
+						Realign();
+						break;
+
+					default:
+						Debug.LogWarning("Collision with unknown powerup " + other.gameObject.name);
+						break;
+				}
+			}
 		}
-			
 	}
-
-	private void Update ()
+	private void OnTriggerExit(Collider other)
 	{
-		if (PlayerID < 0)
-			return;
-		PowerUpdate ();
+		if (other.gameObject.tag == "River Flow Trigger")
+			riverFlows.Remove(other.transform);
 	}
-
-	private void Split()
+	
+	IEnumerator Timer(float time, Action toDo)
+	{
+		yield return new WaitForSeconds(time);
+		toDo();
+	}
+	
+	private void DoToAllTeammates(Action<PhysicsObj> toDo)
+	{
+		foreach (var ally in MatchManager.Instance.PhysicsObjs.Where(obj => obj.PlayerID == PlayerID))
+			toDo(ally);
+	}
+	private void Split(float time)
 	{
 		GameObject obj = Instantiate (Prefab);
 		var physObj = obj.GetComponent<PhysicsObj> ();
@@ -302,41 +308,41 @@ public class PhysicsObj : MonoBehaviour
 		Vector3 posDiffVec = new Vector3(offset, 0, offset);
 		obj.transform.position = transform.position + posDiffVec;
 
-		hasPowered = true;
+		isPowered = true;
+		
+		StartCoroutine(Timer(time, () => Destroy(gameObject)));
 	}
-
-	private void SpeedUp()
+	private void SpeedUp(float time)
 	{
-		rgd.velocity *= 2.0f;
-		hasPowered = true;
+		rgd.velocity *= PowerUpSpeedScale;
+		isPowered = true;
+		StartCoroutine(Timer(time, () => { isPowered = false; rgd.velocity /= PowerUpSpeedScale; }));
 	}
-
-	private void SpeedDown()
+	private void SpeedDown(float time)
 	{
-		rgd.velocity /= 2.0f;
-		hasPowered = true;
+		rgd.velocity /= PowerUpSpeedScale;
+		isPowered = true;
+		StartCoroutine(Timer(time, () => { isPowered = false; rgd.velocity *= PowerUpSpeedScale; }));
 	}
-
-	private void Shrink () 
+	private void Shrink(float time) 
 	{
-		transform.localScale /= scaleMultiply;
-		hasPowered = true;
+		transform.localScale /= PowerUpScale;
+		isPowered = true;
+		StartCoroutine(Timer(time, () => { isPowered = false; transform.localScale *= PowerUpScale; }));
 	}
-
-	private void Enlarge()
+	private void Enlarge(float time)
 	{
-		transform.localScale *= scaleMultiply;
-		hasPowered = true;
+		transform.localScale *= PowerUpScale;
+		isPowered = true;
+		StartCoroutine(Timer(time, () => { isPowered = false; transform.localScale /= PowerUpScale; }));
 	}
-
-	private void OnTriggerEnter(Collider other)
+	private void Realign()
 	{
-		if (other.gameObject.tag == "River Flow Trigger")
-			riverFlows.Add(other.transform);
-	}
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.gameObject.tag == "River Flow Trigger")
-			riverFlows.Remove(other.transform);
+		Vector3 forward = transform.forward;
+		foreach (var ally in MatchManager.Instance.PhysicsObjs.Where(obj => obj.PlayerID == PlayerID))
+		{
+			ally.transform.forward = forward;
+			ally.rgd.velocity = rgd.velocity;
+		}
 	}
 }

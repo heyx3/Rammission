@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - River Flow Trigger
+  - Enlarge Powerup
+  - Split Powerup
+  - Speedup Powerup
+  - Speeddown Powerup
+  - Shrink Powerup
+  - Realign Powerup
   layers:
   - Default
   - TransparentFX

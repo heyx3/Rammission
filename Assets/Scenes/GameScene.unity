@@ -150,7 +150,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4749537029209820, guid: 97e1f3c84d25e6342896fc4d59364407, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1868609969884628, guid: 97e1f3c84d25e6342896fc4d59364407, type: 2}
       propertyPath: m_Name
@@ -387,7 +387,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &512344552
 MeshCollider:
@@ -538,7 +538,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &710300594
 MeshCollider:
@@ -655,7 +655,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 885392168}
   m_LocalRotation: {x: 1, y: -0, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 3.3899994, z: 0}
+  m_LocalPosition: {x: 0, y: 4.08, z: 0}
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
@@ -720,7 +720,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &988499261 stripped
 Transform:
@@ -978,9 +978,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d2046d9bed5c643a45914fe2f6aea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 1496131845716156, guid: e25f5f95a73f45e458a500ec953754b1, type: 2}
+  PhysObjPrefab: {fileID: 1496131845716156, guid: e25f5f95a73f45e458a500ec953754b1,
+    type: 2}
+  PowerupPrefabs:
+  - {fileID: 1237539274693814, guid: 42679cbe867a4d34da38fad260860f15, type: 2}
+  - {fileID: 1380373690472744, guid: 0ccd9d2e339f5214fbb5d28f7dc7e5b9, type: 2}
+  - {fileID: 1982043837446730, guid: c02d9ad24603a164c8f74a91f3ddbae8, type: 2}
+  - {fileID: 1362122010680934, guid: 3ac942304b3a2574db89c94b9c1add6f, type: 2}
+  - {fileID: 1556318259998302, guid: 2a80e6de99d012943946da3a8b11535b, type: 2}
+  - {fileID: 1889995531961826, guid: 4624160b3545ca44585ba7f425bca8d0, type: 2}
   Radius: 25
   StartY: 1
+  MinPowerupSpawnTime: 15
+  MaxPowerupSpawnTime: 30
   ringsToDrop:
   - {fileID: 988499261}
   - {fileID: 710300593}
