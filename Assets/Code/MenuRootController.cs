@@ -13,6 +13,7 @@ public class MenuRootController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.lerpTo(this.firstTarget);
+		this.currentTarget.GetComponentInChildren<FadableMenu>().show();
 	}
 	
 	// Update is called once per frame
@@ -39,6 +40,7 @@ public class MenuRootController : MonoBehaviour {
 			Debug.Log("Fading out: " + this.currentTarget.GetComponentInChildren<Canvas>().name);
 		}
 		this.currentTarget = this.Targets[targetId];
+		this.currentTarget.GetComponentInChildren<FadableMenu>().fadeIn();
 		Debug.Log("Moving to " + this.currentTarget.name);
 		this.lerpStart = Time.time;
 		Debug.Log("Lerping from " + this.lerpStart);

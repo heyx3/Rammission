@@ -6,7 +6,9 @@ public class LazySuzanController : MonoBehaviour {
 	public float spinSpeed;
 	// Use this for initialization
 	void Start () {
-		
+		foreach(FadableMenu c in this.GetComponentsInChildren<FadableMenu>()){
+			c.hide();
+		}
 	}
 	
 	// Update is called once per frame
