@@ -24,8 +24,7 @@ public class PhysicsObj : MonoBehaviour
 	
 	public float PowerUpSpeedScale = 2.0f;
 	public float PowerUpScale = 1.5f;
-
-	public GameObject Prefab;
+	
 	public Material NormalEyes, AngryEyes, ScaredEyes;
 	public Renderer EyesRenderer;
 	public GameObject HitEffects;
@@ -298,7 +297,7 @@ public class PhysicsObj : MonoBehaviour
 	}
 	private void Split(float time)
 	{
-		GameObject obj = Instantiate (Prefab);
+		GameObject obj = Instantiate (gameObject);
 		var physObj = obj.GetComponent<PhysicsObj> ();
 		physObj.PlayerID = PlayerID;
 		MatchManager.Instance.HeyTheresANewPhysObj (physObj);
