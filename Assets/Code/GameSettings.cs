@@ -51,6 +51,10 @@ public static class GameSettings
 	/// </summary>
 	public static int NObjectsInField = 30,
 					  NObjectsPerPlayer = 4;
+	/// <summary>
+	/// Affects powerup spawn rates.
+	/// </summary>
+	public static float PowerupFrequency = 1.0f;
 	
 	/// <summary>
 	/// Different ways to control the game.

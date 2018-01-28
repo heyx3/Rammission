@@ -1,11 +1,17 @@
 fileFormatVersion: 2
 guid: ae2de09005534b44b9f66980b37011d0
-timeCreated: 1517013384
+timeCreated: 1517100981
 licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Prefab: {fileID: 1496131845716156, guid: e25f5f95a73f45e458a500ec953754b1, type: 2}
+  - NormalEyes: {instanceID: 0}
+  - AngryEyes: {instanceID: 0}
+  - ScaredEyes: {instanceID: 0}
+  - EyesRenderer: {instanceID: 0}
+  - HitEffects: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

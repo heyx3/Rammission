@@ -98,7 +98,7 @@ Transform:
   m_GameObject: {fileID: 1496131845716156}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.2050457, y: 0.88, z: -0.03355217}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 4289382755246054}
   - {fileID: 4632640521056366}
@@ -231,6 +231,10 @@ MonoBehaviour:
   AngryEyesThreshold: 0.001
   KillHeight: -10
   PushAwayStrength: 10
+  RiverFlowStrength: 10
+  PowerUpSpeedScale: 10
+  PowerUpScale: 1.5
+  Prefab: {fileID: 1496131845716156}
   NormalEyes: {fileID: 2100000, guid: c569b8a7c791e374ebeecd84bba7f929, type: 2}
   AngryEyes: {fileID: 2100000, guid: f832e5a4837b6c340a1628d62767d7ec, type: 2}
   ScaredEyes: {fileID: 2100000, guid: a9a54c120e6b5934890f21222f3b339e, type: 2}
