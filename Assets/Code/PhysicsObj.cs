@@ -50,22 +50,27 @@ public class PhysicsObj : MonoBehaviour
 		if (rnd != null)
 			rnd.material = PlayerMaterials[PlayerID + 1];
 
-		if (rgd == null || PlayerID < 0)
+		if (rgd == null)
 			return;
 
-		var moveInput = MyInput.GetInput(PlayerID);
 
 		//Get acceleration from rivers.
-		Vector2 riverAccel = Vector2.zero;
+		Vector2 accel = Vector2.zero;
 		foreach (var riverFlow in riverFlows)
-			riverAccel += riverFlow.forward.Horz().normalized;
-		riverAccel = riverAccel.normalized * RiverFlowStrength;
+			accel += riverFlow.forward.Horz().normalized;
+		accel = accel.normalized * RiverFlowStrength;
+
+		if (PlayerID >= 0)
+		{
+			var moveInput = MyInput.GetInput(PlayerID);
+
+			accel += transform.forward.Horz().normalized * moveInput.y * Acceleration;
+			transform.Rotate(new Vector3(0.0f, moveInput.x * TurnSpeed * Time.deltaTime, 0.0f),
+							 Space.World);
+		}
 
 		//Accelerate forwards/backwards.
-		rgd.velocity += (riverAccel.To3D() + (transform.forward * moveInput.y * Acceleration)) *
-						Time.deltaTime;
-		transform.Rotate(new Vector3(0.0f, moveInput.x * TurnSpeed * Time.deltaTime, 0.0f),
-						 Space.World);
+		rgd.velocity += accel.To3D() * Time.deltaTime;
 	}
 	private void LateUpdate()
 	{
