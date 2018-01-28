@@ -71,13 +71,13 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FoamHDR: 1
+    - _FoamHDR: 6
     - _FoamPan: 1
     - _FoamScale: 31.36
     - _GlossMapScale: 1
-    - _Glossiness: 0.857
+    - _Glossiness: 0.864
     - _GlossyReflections: 1
-    - _Metallic: 0.779
+    - _Metallic: 0.813
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -96,3 +96,4 @@ Material:
     - _Normal1PanScale: {r: 0.02, g: 0.1, b: 61.6, a: 1}
     - _Normal2Pan: {r: 1.25, g: -0.05, b: 0, a: 0}
     - _Normal2PanScale: {r: 0.005, g: -0.07, b: 70, a: 1}
+    - _WaterFallStarts: {r: 0.25, g: 0.82, b: 0, a: 0}

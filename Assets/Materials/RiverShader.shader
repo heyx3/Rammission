@@ -18,6 +18,8 @@ Shader "Water/My River" {
         _FoamScale ("Foam Scale", Float) = 1.0
         _FoamPan ("Foam Pan", Float) = 1.0
 
+        _WaterFallStarts ("Waterfall starts", Vector) = (0.1,0.9,0,0)
+
         _RefractIndex ("Refraction Index", Float) = 1.0
         _Transparency ("Transparency", Range(0,1)) = 0.3
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
@@ -52,6 +54,7 @@ Shader "Water/My River" {
         float4 _Normal1PanScale, _Normal2PanScale;
         float _FoamPan, _FoamScale, _FoamHDR;
         float _RefractIndex, _Transparency, _Glossiness, _Metallic;
+        float2 _WaterFallStarts;
 
         void vert(inout appdata_full v, out Input o) {
             UNITY_INITIALIZE_OUTPUT(Input, o);
@@ -69,6 +72,11 @@ Shader "Water/My River" {
                                 float2(_FoamScale, 1.0) *
                                 (IN.uv_FoamTex + float2(0.0 * _Time.y, 0.0))).rgb;
             foam *= _FoamCol * _FoamHDR;
+
+            //See if we're in a waterfall.
+            float waterfall1 = step(IN.uv_FoamTex.x, _WaterFallStarts.x),
+                  waterfall2 = step(_WaterFallStarts.y, IN.uv_FoamTex.x);
+            foam = max(waterfall1, waterfall2);
             o.Albedo = _Color.rgb + foam;
             
 
