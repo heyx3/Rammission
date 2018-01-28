@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerID: 0
   Acceleration: 15
-  TurnSpeed: 500
+  TurnSpeed: 400
   AngryEyesThreshold: 0.001
   KillHeight: -10
   PushAwayStrength: 10
@@ -244,6 +244,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ba8375f1a0dde424fb5a9981cea71e5d, type: 2}
   - {fileID: 2100000, guid: b6e277df526c40448bcbcbc55aeb233a, type: 2}
   - {fileID: 2100000, guid: 30dc672f399c9884a848acd67582e6b6, type: 2}
+  inMapOnStart: 0
 --- !u!114 &114569265377689514
 MonoBehaviour:
   m_ObjectHideFlags: 1

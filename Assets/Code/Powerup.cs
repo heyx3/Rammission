@@ -31,7 +31,6 @@ public class Powerup : MonoBehaviour
 		var collectedEffect = Instantiate(CollectedEffectPrefab);
 		collectedEffect.transform.position = transform.position;
 
-		
 		var text = collectedEffect.GetComponentInChildren<TextMesh>();
 		if (text != null)
 		{

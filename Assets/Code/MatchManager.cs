@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class MatchManager : MonoBehaviour
@@ -17,9 +18,6 @@ public class MatchManager : MonoBehaviour
 				 MaxPowerupSpawnTime = 15.0f;
 
 	public IEnumerable<PhysicsObj> PhysicsObjs { get { return objs; } }
-	public void HeyTheresANewPhysObj(PhysicsObj obj) {
-		objs.Add (obj);
-	}
 
 	[SerializeField]
 	private List<Transform> ringsToDrop = new List<Transform>();
@@ -31,8 +29,15 @@ public class MatchManager : MonoBehaviour
 	private int[] nPiecesPerPlayer;
 	private List<PhysicsObj> objs;
 
+	private void Awake(){
+		// hold off on starting the match we need to find out what game type.
+		//SceneManager.LoadScene("Scenes/MenuScene", LoadSceneMode.Additive);		
 
-	private void Awake()
+
+		this.MatchStart();
+	}
+
+	private void MatchStart()
 	{
 		Instance = this;
 
@@ -95,8 +100,6 @@ public class MatchManager : MonoBehaviour
 			nPiecesPerPlayer[oldID] -= 1;
 		if (newID.HasValue && newID.Value >= 0)
 			nPiecesPerPlayer[newID.Value] += 1;
-		if (!newID.HasValue)
-			objs.Remove (obj);
 
 		int nPlayersWithPieces = nPiecesPerPlayer.Count(n => n > 0);
 		if (nPlayersWithPieces <= 1)
