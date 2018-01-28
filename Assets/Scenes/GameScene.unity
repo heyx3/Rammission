@@ -184,6 +184,47 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 263454801}
   m_Mesh: {fileID: 4300000, guid: 8a58a31bb84e42c409738f9da5b16607, type: 3}
+--- !u!1 &322952938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 322952939}
+  - component: {fileID: 322952940}
+  m_Layer: 0
+  m_Name: River Flow Trigger (7)
+  m_TagString: River Flow Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &322952939
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 322952938}
+  m_LocalRotation: {x: 0, y: -0.3867915, z: 0, w: 0.92216724}
+  m_LocalPosition: {x: -8.22, y: 0.62, z: 16.68}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052586092}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: -45.51, z: 0}
+--- !u!65 &322952940
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 322952938}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.66, y: 100, z: 9}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &328498099
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +312,47 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: d0533c7e24b9ff54a871a75a31fbcabf, type: 3}
+--- !u!1 &339575824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 339575825}
+  - component: {fileID: 339575826}
+  m_Layer: 0
+  m_Name: River Flow Trigger (6)
+  m_TagString: River Flow Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &339575825
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 339575824}
+  m_LocalRotation: {x: 0, y: -0.49029535, z: 0, w: 0.87155634}
+  m_LocalPosition: {x: -0.31, y: 0.62, z: 10.55}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052586092}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: -58.72, z: 0}
+--- !u!65 &339575826
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 339575824}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.66, y: 100, z: 16.6}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &512344548
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,6 +590,129 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 544e660fcaf150a44927fa29a0c9c75f, type: 3}
+--- !u!1 &663952268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 663952269}
+  - component: {fileID: 663952270}
+  m_Layer: 0
+  m_Name: River Flow Trigger (4)
+  m_TagString: River Flow Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &663952269
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 663952268}
+  m_LocalRotation: {x: 0, y: -0.015009303, z: 0, w: 0.99988735}
+  m_LocalPosition: {x: 10.14, y: 0.62, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052586092}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: -1.72, z: 0}
+--- !u!65 &663952270
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 663952268}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.66, y: 100, z: 9}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &674652992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 674652993}
+  - component: {fileID: 674652994}
+  m_Layer: 0
+  m_Name: River Flow Trigger (9)
+  m_TagString: River Flow Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &674652993
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 674652992}
+  m_LocalRotation: {x: 0, y: 0.12966095, z: 0, w: 0.9915584}
+  m_LocalPosition: {x: -13.01, y: 0.62, z: 34.62}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052586092}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 14.9, z: 0}
+--- !u!65 &674652994
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 674652992}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.66, y: 100, z: 20.1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &676836030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 676836031}
+  - component: {fileID: 676836032}
+  m_Layer: 0
+  m_Name: River Flow Trigger (3)
+  m_TagString: River Flow Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &676836031
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 676836030}
+  m_LocalRotation: {x: 0, y: 0.27471444, z: 0, w: 0.96152586}
+  m_LocalPosition: {x: 4.42, y: 0.62, z: -14.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052586092}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 31.89, z: 0}
+--- !u!65 &676836032
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 676836030}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.66, y: 100, z: 23.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &710300590
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,7 +1034,17 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1981532000}
+  - {fileID: 1893005681}
+  - {fileID: 1313892667}
+  - {fileID: 676836031}
+  - {fileID: 663952269}
+  - {fileID: 1593191833}
+  - {fileID: 339575825}
+  - {fileID: 322952939}
+  - {fileID: 1809380748}
+  - {fileID: 674652993}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1011,6 +1226,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a43fe35d99c3743bd9470e2ea32d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1313892666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1313892667}
+  - component: {fileID: 1313892668}
+  m_Layer: 0
+  m_Name: River Flow Trigger (2)
+  m_TagString: River Flow Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1313892667
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1313892666}
+  m_LocalRotation: {x: 0, y: 0.23709245, z: 0, w: 0.97148716}
+  m_LocalPosition: {x: -1.46, y: 0.62, z: -23.62}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052586092}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 27.43, z: 0}
+--- !u!65 &1313892668
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1313892666}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.66, y: 100, z: 9}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1422770473
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,3 +1336,167 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1593191832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1593191833}
+  - component: {fileID: 1593191834}
+  m_Layer: 0
+  m_Name: River Flow Trigger (5)
+  m_TagString: River Flow Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1593191833
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1593191832}
+  m_LocalRotation: {x: 0, y: -0.43758664, z: 0, w: 0.8991763}
+  m_LocalPosition: {x: 7.34, y: 0.62, z: 5.29}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052586092}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: -51.9, z: 0}
+--- !u!65 &1593191834
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1593191832}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.66, y: 100, z: 9}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1809380747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1809380748}
+  - component: {fileID: 1809380749}
+  m_Layer: 0
+  m_Name: River Flow Trigger (8)
+  m_TagString: River Flow Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1809380748
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1809380747}
+  m_LocalRotation: {x: 0, y: -0.25038, z: 0, w: 0.9681477}
+  m_LocalPosition: {x: -12.8, y: 0.62, z: 22.69}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052586092}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: -29, z: 0}
+--- !u!65 &1809380749
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1809380747}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.66, y: 100, z: 9}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1893005680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1893005681}
+  - component: {fileID: 1893005682}
+  m_Layer: 0
+  m_Name: River Flow Trigger (1)
+  m_TagString: River Flow Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1893005681
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1893005680}
+  m_LocalRotation: {x: 0, y: -0.0209424, z: 0, w: 0.9997807}
+  m_LocalPosition: {x: -3.21, y: 0.62, z: -30.97}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052586092}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: -2.4, z: 0}
+--- !u!65 &1893005682
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1893005680}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.66, y: 100, z: 9}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1981531999
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1981532000}
+  - component: {fileID: 1981532001}
+  m_Layer: 0
+  m_Name: River Flow Trigger
+  m_TagString: River Flow Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1981532000
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1981531999}
+  m_LocalRotation: {x: -0, y: -0.27507624, z: -0, w: 0.96142244}
+  m_LocalPosition: {x: -0.8, y: 0.62, z: -36.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052586092}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -31.933, z: 0}
+--- !u!65 &1981532001
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1981531999}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.66, y: 100, z: 9}
+  m_Center: {x: 0, y: 0, z: 0}
