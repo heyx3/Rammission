@@ -32,6 +32,9 @@ public class PhysicsObj : MonoBehaviour
 
 	public List<Material> PlayerMaterials = new List<Material>();
 
+	[SerializeField]
+	private bool startsInMap = false;
+
 
 	private Rigidbody rgd;
 	private Renderer rnd;
@@ -52,6 +55,11 @@ public class PhysicsObj : MonoBehaviour
 		collisionEvents.CollisionExit += (obj, coll) => OnCollisionExit(coll);
 		collisionEvents.TriggerEnter += (obj, coll) => OnTriggerEnter(coll);
 		collisionEvents.TriggerExit += (obj, coll) => OnTriggerExit(coll);
+	}
+	private void Start()
+	{
+		if (startsInMap)
+			MatchManager.Instance.HeyTheresANewPhysObj(this);
 	}
 	private void FixedUpdate()
 	{
