@@ -26,7 +26,8 @@ public class Powerup : MonoBehaviour
 	{
 		TimeTillCollectible -= Time.deltaTime;
 	}
-	private void OnDestroy()
+
+	public void Collect()
 	{
 		var collectedEffect = Instantiate(CollectedEffectPrefab);
 		collectedEffect.transform.position = transform.position;
@@ -38,5 +39,7 @@ public class Powerup : MonoBehaviour
 			text.transform.forward = -(Camera.main.transform.position -
 									   text.transform.position).normalized;
 		}
+
+		Destroy(gameObject);
 	}
 }

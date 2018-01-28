@@ -18,6 +18,9 @@ public class MatchManager : MonoBehaviour
 				 MaxPowerupSpawnTime = 15.0f;
 
 	public IEnumerable<PhysicsObj> PhysicsObjs { get { return objs; } }
+	public void HeyTheresANewPhysObj(PhysicsObj obj) {
+		objs.Add (obj);
+	}
 
 	[SerializeField]
 	private List<Transform> ringsToDrop = new List<Transform>();
@@ -100,6 +103,8 @@ public class MatchManager : MonoBehaviour
 			nPiecesPerPlayer[oldID] -= 1;
 		if (newID.HasValue && newID.Value >= 0)
 			nPiecesPerPlayer[newID.Value] += 1;
+		if (!newID.HasValue)
+			objs.Remove (obj);
 
 		int nPlayersWithPieces = nPiecesPerPlayer.Count(n => n > 0);
 		if (nPlayersWithPieces <= 1)
