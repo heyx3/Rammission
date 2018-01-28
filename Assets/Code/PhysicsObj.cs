@@ -19,6 +19,7 @@ public class PhysicsObj : MonoBehaviour
 	public float AngryEyesThreshold = 0.0f;
 	public float KillHeight = -10.0f;
 	public float PushAwayStrength = 10.0f;
+	public float RiverFlowStrength = 10.0f;
 
 	public GameObject Prefab;
 	public Material NormalEyes, AngryEyes, ScaredEyes;
@@ -43,6 +44,7 @@ public class PhysicsObj : MonoBehaviour
 	private Rigidbody rgd;
 	private Renderer rnd;
 	private HashSet<PhysicsObj> currentCollidingObjs = new HashSet<PhysicsObj>();
+	private HashSet<Transform> riverFlows = new HashSet<Transform>();
 	private float timeWithCollisions = 0.0001f;
 
 	private float powerUpTime = 5.0f;
@@ -58,6 +60,8 @@ public class PhysicsObj : MonoBehaviour
 		var collisionEvents = GetComponentInChildren<CollisionEventExposer>();
 		collisionEvents.CollisionEnter += (obj, coll) => OnCollisionEnter(coll);
 		collisionEvents.CollisionExit += (obj, coll) => OnCollisionExit(coll);
+		collisionEvents.TriggerEnter += (obj, coll) => OnTriggerEnter(coll);
+		collisionEvents.TriggerExit += (obj, coll) => OnTriggerExit(coll);
 	}
 	private void FixedUpdate()
 	{
@@ -69,8 +73,15 @@ public class PhysicsObj : MonoBehaviour
 
 		var moveInput = MyInput.GetInput(PlayerID);
 
+		//Get acceleration from rivers.
+		Vector2 riverAccel = Vector2.zero;
+		foreach (var riverFlow in riverFlows)
+			riverAccel += riverFlow.forward.Horz().normalized;
+		riverAccel = riverAccel.normalized * RiverFlowStrength;
+
 		//Accelerate forwards/backwards.
-		rgd.velocity += transform.forward * moveInput.y * Acceleration * Time.deltaTime;
+		rgd.velocity += (riverAccel.To3D() + (transform.forward * moveInput.y * Acceleration)) *
+						Time.deltaTime;
 		transform.Rotate(new Vector3(0.0f, moveInput.x * TurnSpeed * Time.deltaTime, 0.0f),
 						 Space.World);
 	}
@@ -225,6 +236,7 @@ public class PhysicsObj : MonoBehaviour
 		currentCollidingObjs.Remove(obj);
 	}
 
+
 	private void PowerUpdate ()
 	{
 		StartCoroutine (PowerOneUpdate ());
@@ -310,5 +322,15 @@ public class PhysicsObj : MonoBehaviour
 	{
 		transform.localScale *= scaleMultiply;
 		hasPowered = true;
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "River Flow Trigger")
+			riverFlows.Add(other.transform);
+	}
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject.tag == "River Flow Trigger")
+			riverFlows.Remove(other.transform);
 	}
 }
