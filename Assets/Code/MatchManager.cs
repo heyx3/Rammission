@@ -31,19 +31,32 @@ public class MatchManager : MonoBehaviour
 
 	private int[] nPiecesPerPlayer;
 	private List<PhysicsObj> objs;
-
-	private void Awake(){
-		// hold off on starting the match we need to find out what game type.
-		//SceneManager.LoadScene("Scenes/MenuScene", LoadSceneMode.Additive);		
+	private bool gameEnded = true;
+	private Coroutine spawnPowerupCoroutine;
 
 
-		this.MatchStart();
-	}
-
-	private void MatchStart()
+	private void Awake()
 	{
 		Instance = this;
+		SceneManager.LoadScene("Scenes/MenuScene", LoadSceneMode.Additive);
+	}
 
+	public void MatchStart()
+	{
+		gameEnded = false;
+		for (int i = 0; i < ringsToDrop.Count; ++i)
+			if (GameSettings.RingOut)
+				ringsToDrop[i].gameObject.SetActive(false);
+			else
+				StartCoroutine(DropRingCoroutine(ringsToDrop[i], ringDropTimes[i], 10.0f * i));
+
+		if (GameSettings.RingOut)
+			SpawnIn();
+		else
+			StartCoroutine(Timer(ringDropTimes.Max(), () => SpawnIn()));
+	}
+	private void SpawnIn()
+	{
 		objs = new List<PhysicsObj>(GameSettings.NObjectsInField);
 		for (int i = 0; i < GameSettings.NObjectsInField; ++i)
 		{
@@ -69,13 +82,7 @@ public class MatchManager : MonoBehaviour
 		foreach (var obj in neutralObjs)
 			obj.PlayerID = -1;
 
-		for (int i = 0; i < ringsToDrop.Count; ++i)
-			if (GameSettings.RingOut)
-				Destroy(ringsToDrop[i].gameObject);
-			else
-				StartCoroutine(DropRingCoroutine(ringsToDrop[i], ringDropTimes[i]));
-
-		StartCoroutine(SpawnPowerupCoroutine());
+		spawnPowerupCoroutine = StartCoroutine(SpawnPowerupCoroutine());
 	}
 
 	/// <summary>
@@ -86,9 +93,19 @@ public class MatchManager : MonoBehaviour
 	/// </param>
 	public void EndGame(int winnerID)
 	{
-		Debug.Log(winnerID == -1 ?
-				      "No player wins!" :
-					  ("Player " + winnerID + " wins!"));
+		if (gameEnded)
+			return;
+
+		foreach (var obj in objs.ToList())
+		{
+			obj.OnConvertedOrKilled -= Callback_PieceConvertedOrKilled;
+			Destroy(obj.gameObject);
+		}
+		foreach (var powerup in FindObjectsOfType<Powerup>())
+			Destroy(powerup.gameObject);
+
+		StopCoroutine(spawnPowerupCoroutine);
+		SceneManager.LoadScene("Scenes/MenuScene", LoadSceneMode.Additive);
 	}
 
 	public Vector3 RandomPosInArena()
@@ -111,8 +128,10 @@ public class MatchManager : MonoBehaviour
 			EndGame(nPiecesPerPlayer.IndexOf(n => n > 0));
 	}
 
-	private System.Collections.IEnumerator DropRingCoroutine(Transform tr, float ringDropTime)
+	private System.Collections.IEnumerator DropRingCoroutine(Transform tr, float ringDropTime, float height)
 	{
+		tr.position = new Vector3(tr.position.x, height, tr.position.z);
+
 		tr.gameObject.SetActive(true);
 
 		float startY = tr.position.y,
@@ -129,12 +148,11 @@ public class MatchManager : MonoBehaviour
 			yield return null;
 		}
 		tr.position = new Vector3(horzPos.x, 0.0f, horzPos.y);
-
-		ringsToDrop.Remove(tr);
-		if (ringsToDrop.Count == 0)
-		{
-			Debug.LogError("Start game now!");
-		}
+	}
+	private System.Collections.IEnumerator Timer(float t, Action toDo)
+	{
+		yield return new WaitForSeconds(t);
+		toDo();
 	}
 	private System.Collections.IEnumerator SpawnPowerupCoroutine()
 	{

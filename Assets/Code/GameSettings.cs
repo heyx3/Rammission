@@ -45,12 +45,12 @@ public static class GameSettings
 	/// <summary>
 	/// The number of players in the game.
 	/// </summary>
-	public static int NPlayers = 2;
+	public static int NPlayers = 0;
 	/// <summary>
 	/// The number of objects to spawn.
 	/// </summary>
-	public static int NObjectsInField = 30,
-					  NObjectsPerPlayer = 4;
+	public static int NObjectsInField = 40,
+					  NObjectsPerPlayer = 10;
 	/// <summary>
 	/// Affects powerup spawn rates.
 	/// </summary>

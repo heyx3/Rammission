@@ -62,6 +62,8 @@ public class PhysicsObj : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
+		if (PlayerID >= PlayerMaterials.Count)
+			Debug.Log(PlayerID.ToString() + "/" + PlayerMaterials.Count);
 		if (rnd != null)
 			rnd.material = PlayerMaterials[PlayerID + 1];
 
