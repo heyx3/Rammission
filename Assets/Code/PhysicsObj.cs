@@ -20,9 +20,23 @@ public class PhysicsObj : MonoBehaviour
 	public float KillHeight = -10.0f;
 	public float PushAwayStrength = 10.0f;
 
+	public GameObject Prefab;
 	public Material NormalEyes, AngryEyes, ScaredEyes;
 	public Renderer EyesRenderer;
 	public GameObject HitEffects;
+
+
+	public List<KeyCode> Control_Power_One = new List<KeyCode> ()
+	{
+		KeyCode.E,
+		KeyCode.L
+	};
+	public List<KeyCode> Control_Power_Two = new List<KeyCode> ()
+	{
+		KeyCode.Q,
+		KeyCode.K
+	};
+
 	public List<Material> PlayerMaterials = new List<Material>();
 
 
@@ -30,6 +44,10 @@ public class PhysicsObj : MonoBehaviour
 	private Renderer rnd;
 	private HashSet<PhysicsObj> currentCollidingObjs = new HashSet<PhysicsObj>();
 	private float timeWithCollisions = 0.0001f;
+
+	private float powerUpTime = 5.0f;
+	private bool hasPowered;
+	private float scaleMultiply = 1.5f;
 
 
 	private void Awake()
@@ -205,5 +223,92 @@ public class PhysicsObj : MonoBehaviour
 			return;
 
 		currentCollidingObjs.Remove(obj);
+	}
+
+	private void PowerUpdate ()
+	{
+		StartCoroutine (PowerOneUpdate ());
+		//PowerOneUpdate ();
+		StartCoroutine (PowerTwoUpdate ());
+	}
+
+
+	IEnumerator PowerOneUpdate()
+	{	
+		if (Input.GetKeyUp (Control_Power_One [PlayerID]) && !hasPowered) 
+		{
+			Split ();
+			yield return new WaitForSeconds (powerUpTime);
+			Destroy (this.gameObject);
+			hasPowered = false;
+		}
+			
+	}
+
+
+	IEnumerator PowerTwoUpdate()
+	{
+		if (Input.GetKeyDown (Control_Power_Two [PlayerID]) && !hasPowered) 
+		{
+			Enlarge ();
+			yield return new WaitForSeconds (powerUpTime);
+			Shrink ();
+			hasPowered = false;
+		}
+			
+	}
+
+	private void Update ()
+	{
+		if (PlayerID < 0)
+			return;
+		PowerUpdate ();
+	}
+
+	private void Split()
+	{
+		GameObject obj = Instantiate (Prefab);
+		var physObj = obj.GetComponent<PhysicsObj> ();
+		physObj.PlayerID = PlayerID;
+	
+		float angleIncre = Mathf.PI / 4;
+	
+		Vector3 divertVec = new Vector3 (rgd.velocity.x*(1+Mathf.Cos(angleIncre)), 0.0f, rgd.velocity.z);
+		physObj.rgd.velocity = rgd.velocity+divertVec;
+	
+		float objScale = obj.transform.localScale.x;
+		float offset = Mathf.Clamp (
+			Mathf.Lerp(objScale, 1.5f*objScale, UnityEngine.Random.value),
+			objScale,
+			1.5f*objScale
+			);
+		Vector3 posDiffVec = new Vector3(offset, 0, offset);
+		obj.transform.position = transform.position + posDiffVec;
+
+		hasPowered = true;
+	}
+
+	private void SpeedUp()
+	{
+		rgd.velocity *= 2.0f;
+		hasPowered = true;
+	}
+
+	private void SpeedDown()
+	{
+		rgd.velocity /= 2.0f;
+		hasPowered = true;
+	}
+
+	private void Shrink () 
+	{
+		transform.localScale /= scaleMultiply;
+		hasPowered = true;
+	}
+
+	private void Enlarge () 
+	{
+		transform.localScale *= scaleMultiply;
+		hasPowered = true;
 	}
 }
