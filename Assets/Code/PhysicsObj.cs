@@ -329,27 +329,27 @@ public class PhysicsObj : MonoBehaviour
 	{
 		rgd.velocity *= PowerUpSpeedScale;
 		isPowered = true;
-		StartCoroutine(Timer(time, () => { isPowered = false; rgd.velocity /= PowerUpSpeedScale; }));
+		StartCoroutine(Timer(time, () => { isPowered = false; if (rgd != null) rgd.velocity /= PowerUpSpeedScale; }));
 	}
 	private void SpeedDown(float time)
 	{
 		rgd.velocity /= PowerUpSpeedScale;
 		isPowered = true;
-		StartCoroutine(Timer(time, () => { isPowered = false; rgd.velocity *= PowerUpSpeedScale; }));
+		StartCoroutine(Timer(time, () => { isPowered = false; if (rgd != null) rgd.velocity *= PowerUpSpeedScale; }));
 	}
 	private void Shrink(float time) 
 	{
 		transform.localScale /= PowerUpScale;
 		rgd.mass /= PowerUpScale;
 		isPowered = true;
-		StartCoroutine(Timer(time, () => { isPowered = false; rgd.mass *= PowerUpScale; transform.localScale *= PowerUpScale; }));
+		StartCoroutine(Timer(time, () => { isPowered = false; if (rgd != null) rgd.mass *= PowerUpScale; transform.localScale *= PowerUpScale; }));
 	}
 	private void Enlarge(float time)
 	{
 		transform.localScale *= PowerUpScale;
 		rgd.mass *= PowerUpScale;
 		isPowered = true;
-		StartCoroutine(Timer(time, () => { isPowered = false; rgd.mass /= PowerUpScale; transform.localScale /= PowerUpScale; }));
+		StartCoroutine(Timer(time, () => { isPowered = false; if (rgd != null) rgd.mass /= PowerUpScale; transform.localScale /= PowerUpScale; }));
 	}
 	private void Realign()
 	{
