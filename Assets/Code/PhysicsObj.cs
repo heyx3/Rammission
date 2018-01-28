@@ -323,10 +323,11 @@ public class PhysicsObj : MonoBehaviour
 		hasPowered = true;
 	}
 
-	private void Enlarge () 
+	private void Enlarge()
 	{
 		transform.localScale *= scaleMultiply;
 		hasPowered = true;
+	}
 
 	private void OnTriggerEnter(Collider other)
 	{
