@@ -35,4 +35,12 @@ public class LazySuzanController : MonoBehaviour
 	{
 		GameSettings.RingOut = ringOut;
 	}
+	public void SetNObjects(float n)
+	{
+		GameSettings.NObjectsInField = Mathf.RoundToInt(n);
+	}
+	public void SetNPerTeamProportion(float percent)
+	{
+		GameSettings.NObjectsPerPlayerPercent = percent;
+	}
 }

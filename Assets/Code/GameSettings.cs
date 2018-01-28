@@ -49,8 +49,11 @@ public static class GameSettings
 	/// <summary>
 	/// The number of objects to spawn.
 	/// </summary>
-	public static int NObjectsInField = 40,
-					  NObjectsPerPlayer = 10;
+	public static int NObjectsInField = 40;
+	/// <summary>
+	/// The percentage of objects that belong to a player in the beginning.
+	/// </summary>
+	public static float NObjectsPerPlayerPercent = 0.25f;
 	/// <summary>
 	/// Affects powerup spawn rates.
 	/// </summary>

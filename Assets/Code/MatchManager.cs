@@ -68,10 +68,11 @@ public class MatchManager : MonoBehaviour
 		var neutralObjs = objs.ToList();
 
 		nPiecesPerPlayer = new int[GameSettings.NPlayers];
+		int nObjectsPerPlayer = Math.Max(1, (int)(GameSettings.NObjectsInField * GameSettings.NObjectsPerPlayerPercent) / GameSettings.NPlayers);
 		for (int playerI = 0; playerI < GameSettings.NPlayers; ++playerI)
 		{
 			nPiecesPerPlayer[playerI] = 0;
-			for (int objI = 0; objI < GameSettings.NObjectsPerPlayer; ++objI)
+			for (int objI = 0; objI < nObjectsPerPlayer; ++objI)
 			{
 				nPiecesPerPlayer[playerI] += 1;
 				int i = UnityEngine.Random.Range(0, neutralObjs.Count);
